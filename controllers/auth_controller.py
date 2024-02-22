@@ -35,9 +35,8 @@ def auth_register():
         return user_schema.dump(user), 201
 
     except IntegrityError as err:
-        print(err.orig.diag.column_name)
         if err.orig.pgcode == errorcodes.NOT_NULL_VIOLATION:
-            return {"error": f"The {err.orig.diag.column_name} is null"}
+            return {"error": f"The {err.orig.diag.column_name} is required"}
         if err.orig.pgcode == errorcodes.UNIQUE_VIOLATION:
             return {"error": "Email address already in use"}, 409
     
